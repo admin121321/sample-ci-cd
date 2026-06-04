@@ -15,6 +15,6 @@ data:
     <body>
         <h1><b>Selamat Datang!</b></h1>
         <h2>Anda sedang melihat halaman web yang di-deploy di Kubernetes PELER.</h2>
-        <p>Ini adalah halaman web statis yang di-deploy di Kubernetes.</p>
+        <p>Ini adalah halaman web statis CI/CD GITHUB ACTIONS.</p>
     </body>
     </html>
