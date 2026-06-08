@@ -64,13 +64,10 @@ jobs:
       
       - name: Deploy to Kubernetes
         run: |
-          # 1. Ganti tulisan TAG_DARI_CI menjadi SHA commit asli menggunakan perintah 'sed'
-          sed -i "s/TAG_DARI_CI/${{ github.sha }}/g" deployment.yaml
+          sed -i "s/TAG_DARI_CI/${{ github.sha }}/g" k8s/deployment.yaml
           
-          # 2. Baru kemudian di-apply ke Kubernetes
-          kubectl apply -f deployment.yaml
+          kubectl apply -f k8s/deployment.yaml
           
-          # 3. Pantau statusnya
           kubectl rollout status deployment/web-server -n default
 
       # (Opsional) Jika ingin apply ulang semua manifest (misal ada perubahan service)
