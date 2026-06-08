@@ -58,6 +58,7 @@ jobs:
       - name: Deploy to Kubernetes
         run: |
           kubectl set image deployment/web-server nginx=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }} -n default
+          kubectl rollout restart deployment/web-server -n default
           kubectl rollout status deployment/web-server -n default
 
       # (Opsional) Jika ingin apply ulang semua manifest (misal ada perubahan service)
