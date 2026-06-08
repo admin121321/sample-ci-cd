@@ -64,13 +64,13 @@ jobs:
       
       - name: Deploy to Kubernetes
         run: |
-          # 1. Kita tembak langsung alamat GHCR Anda menggunakan commit SHA
-          kubectl set image deployment/web-server nginx=ghcr.io/admin121321/sample-ci-cd:${{ github.sha }} -n default
+          # 1. Ganti tulisan TAG_DARI_CI menjadi SHA commit asli menggunakan perintah 'sed'
+          sed -i "s/TAG_DARI_CI/${{ github.sha }}/g" deployment.yaml
           
-          # 2. Tambahkan paksaan restart (Garda Ganda)
-          kubectl rollout restart deployment/web-server -n default
+          # 2. Baru kemudian di-apply ke Kubernetes
+          kubectl apply -f deployment.yaml
           
-          # 3. Pantau statusnya sampai selesai
+          # 3. Pantau statusnya
           kubectl rollout status deployment/web-server -n default
 
       # (Opsional) Jika ingin apply ulang semua manifest (misal ada perubahan service)
