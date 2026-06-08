@@ -55,10 +55,22 @@ jobs:
         # Pastikan secret KUBECONFIG berisi isi file kubeconfig (base64 encoded)
 
       # 6. Update image pada deployment
+      # - name: Deploy to Kubernetes
+      #   run: |
+      #     kubectl set image deployment/web-server nginx=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }} -n default
+      #     kubectl rollout restart deployment/web-server -n default
+      #     kubectl rollout status deployment/web-server -n default
+
+      
       - name: Deploy to Kubernetes
         run: |
-          kubectl set image deployment/web-server nginx=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }} -n default
+          # 1. Kita tembak langsung alamat GHCR Anda menggunakan commit SHA
+          kubectl set image deployment/web-server nginx=ghcr.io/admin121321/sample-ci-cd:${{ github.sha }} -n default
+          
+          # 2. Tambahkan paksaan restart (Garda Ganda)
           kubectl rollout restart deployment/web-server -n default
+          
+          # 3. Pantau statusnya sampai selesai
           kubectl rollout status deployment/web-server -n default
 
       # (Opsional) Jika ingin apply ulang semua manifest (misal ada perubahan service)
